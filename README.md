@@ -22,7 +22,7 @@ This project uses a synthetic electronic health records (EHR) dataset to identif
 - Visualization: `ggplot2`
 - Statistical modeling: `glm` (logistic regression)
 - Model output tidying: `broom`
-- Report generation: `RMarkdown`
+- Report generation: `Quarto`
 
 ---
 
