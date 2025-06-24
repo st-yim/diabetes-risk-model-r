@@ -1,0 +1,82 @@
+---
+title: "Diabetes Risk Prediction"
+format: html
+editor: visual
+---
+
+```{r}
+
+# Load required packages
+library(tidyverse)
+library(broom)
+library(readr)
+```
+
+## Load Data
+
+```{r}
+
+# Read the CSV file
+ehr <- read_csv("data/mock_ehr.csv")
+
+# Preview the data
+glimpse(ehr)
+
+```
+
+## Load Data
+
+```{r}
+
+# Convert to factors where needed
+ehr <- ehr %>%
+  mutate(
+    sex = factor(sex),
+    smoker = factor(smoker),
+    has_diabetes = factor(has_diabetes, levels = c(0, 1), labels = c("No", "Yes"))
+  )
+
+# Check missing values
+ehr %>% summarise_all(~sum(is.na(.)))
+```
+
+## Exploratory Analysis
+
+```{r}
+
+# BMI distribution by diabetes status
+ehr %>%
+  ggplot(aes(x = bmi, fill = has_diabetes)) +
+  geom_density(alpha = 0.4)
+  labs(title = "BMI Distribution by Diabetes Status", x = "BMI", fill = "Diabetes")
+```
+
+## Logistic Regression
+
+```{r}
+
+# Build model to predict diabetes
+model <- glm(has_diabetes ~ age + sex + smoker + bmi + systolic_bp + cholesterol,
+             data = ehr, family = binomial)
+
+# Summarize results
+summary(model)
+
+# Tidy output
+tidy(model, exponentiate = TRUE, conf.int = TRUE)
+
+```
+
+## Interpretation
+
+```{r}
+
+# Plot odds ratios
+tidy(model, exponentiate = TRUE, conf.int = TRUE) %>%
+  ggplot(aes(x = reorder(term, estimate), y = estimate)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) +
+  coord_flip() +
+  labs(title = "Odds Ratios for Diabetes Risk", x = "", y = "Odds Ratio")
+
+```
