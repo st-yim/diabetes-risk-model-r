@@ -26,6 +26,32 @@ This project uses a synthetic electronic health records (EHR) dataset to identif
 
 ---
 
+## 🧬 Data Simulation
+
+The dataset is **synthetically generated** to resemble electronic health records for 500 patients. Each variable is sampled from a realistic distribution or probability, ensuring reproducibility (`set.seed(42)`).
+
+### 📋 Variables Included
+
+| Variable          | Description                                   |
+|-------------------|-----------------------------------------------|
+| `patient_id`      | Integer 1 – 500                               |
+| `age`             | Normal(65, 10) rounded to whole years         |
+| `sex`             | `"Male"` / `"Female"`                         |
+| `smoker`          | `"Yes"` / `"No"` (30 % smokers)               |
+| `has_diabetes`    | `"Yes"` / `"No"` (30 % prevalence)            |
+| `bmi`             | Normal(27, 4)                                 |
+| `systolic_bp`     | Normal(130, 15)                               |
+| `cholesterol`     | Normal(200, 25)                               |
+| `followup_days`   | Uniform integer 30 – 1500                     |
+| `event_occurred`  | 0 / 1 (20 % events)                           |
+
+### 🛠️ Reproducibility
+
+Run the script **`generate_data.R`** in the project root to recreate the dataset.
+It writes the CSV to `data/mock_ehr.csv`.
+
+---
+
 ## 🔍 Key Questions
 
 - What factors are most associated with having diabetes?
@@ -39,8 +65,9 @@ This project uses a synthetic electronic health records (EHR) dataset to identif
 ```
 ehr-diabetes-prediction/
 ├── data/
-│ └── mock_ehr.csv
-├── analysis.Rmd
-├── figures/
-├── README.md
+│ └── mock_ehr.csv # generated dataset
+├── figures/ # plots saved by analysis
+├── analysis.Rmd # Quarto/RMarkdown analysis
+├── generate_data.R # data-simulation script
+└── README.md
 ```
