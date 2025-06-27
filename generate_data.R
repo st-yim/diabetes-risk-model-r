@@ -6,7 +6,7 @@ mock_ehr <- data.frame(
   age = round(rnorm(n, 65, 10)),
   sex = sample(c("Male", "Female"), n, replace = TRUE),
   smoker = sample(c("Yes", "No"), n, replace = TRUE, prob = c(0.3, 0.7)),
-  has_diabetes = sample(c(0, 1), n, replace = TRUE, prob = c(0.7, 0.3)),
+  has_diabetes = sample(c("Yes", "No"), n, replace = TRUE, prob = c(0.7, 0.3)),
   bmi = rnorm(n, 27, 4),
   systolic_bp = rnorm(n, 130, 15),
   cholesterol = rnorm(n, 200, 25),
