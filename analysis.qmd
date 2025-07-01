@@ -30,20 +30,29 @@ ehr <- read_csv("data/mock_ehr.csv")
 dbWriteTable(con, "patients", ehr, overwrite = TRUE)
 ```
 
-## Load Data
+## Modelling Cohort with SQL
 
-```{r}
+```{sql connection=con}
 
-# Convert to factors where needed
-ehr <- ehr %>%
-  mutate(
-    sex = factor(sex),
-    smoker = factor(smoker),
-    has_diabetes = factor(has_diabetes, levels = c(0, 1), labels = c("No", "Yes"))
-  )
+SELECT
+    patient_id,
+    age,
+    sex,
+    bmi,
+    systolic_bp,
+    cholesterol,
+    CASE smoker        WHEN 'Yes' THEN 1 ELSE 0 END AS smoker_bin,
+    CASE has_diabetes  WHEN 'Yes' THEN 1 ELSE 0 END AS label,
+    CASE
+        WHEN bmi < 18.5 THEN 'under'
+        WHEN bmi < 25   THEN 'normal'
+        WHEN bmi < 30   THEN 'over'
+        ELSE                 'obese'
+    END AS bmi_cat
+FROM patients
+WHERE bmi BETWEEN 12 AND 60
+  AND systolic_bp BETWEEN 80 AND 250;
 
-# Check missing values
-ehr %>% summarise(across(everything(), ~sum(is.na(.))))
 ```
 
 ## Exploratory Analysis
