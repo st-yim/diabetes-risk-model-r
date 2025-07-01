@@ -47,8 +47,8 @@ SELECT
     bmi,
     systolic_bp,
     cholesterol,
-    CASE smoker        WHEN 'Yes' THEN 1 ELSE 0 END AS smoker_bin,
-    CASE has_diabetes  WHEN 'Yes' THEN 1 ELSE 0 END AS label,
+    CASE smoker WHEN 'Yes' THEN 1 ELSE 0 END             AS smoker_bin,
+    CASE WHEN has_diabetes IN (1) THEN 1 ELSE 0 END AS label,
     CASE
         WHEN bmi < 18.5 THEN 'under'
         WHEN bmi < 25   THEN 'normal'
@@ -64,13 +64,16 @@ WHERE bmi BETWEEN 12 AND 60
 
 ```{sql connection=con}
 
-SELECT bmi_cat,
-       COUNT(*)               AS n,
-       ROUND(AVG(age),1)      AS mean_age,
-       ROUND(AVG(bmi),1)      AS mean_bmi
+SELECT
+    bmi_cat,
+    COUNT(*)                                 AS n_total,
+    SUM(label)                               AS diab_yes,       
+    ROUND(100.0 * SUM(label) / COUNT(*), 1)  AS prevalence_pct,
+    ROUND(AVG(age), 1)                       AS mean_age,
+    ROUND(AVG(bmi), 1)                       AS mean_bmi
 FROM cohort_tbl
 GROUP BY bmi_cat
-ORDER BY n DESC;
+ORDER BY prevalence_pct DESC;
 
 ```
 
