@@ -10,18 +10,24 @@ editor: visual
 library(tidyverse)
 library(broom)
 library(readr)
+
+# Create in-memory SQLite DB and copy CSV into a table
+library(DBI)
+library(RSQLite)
 ```
 
 ## Load Data
 
 ```{r}
 
-# Read the CSV file
+# Create a temporary, in-memory SQLite database (no files saved to disk)
+con <- dbConnect(RSQLite::SQLite(), ":memory:")
+
+# Load the synthetic EHR dataset from CSV into R as a data frame
 ehr <- read_csv("data/mock_ehr.csv")
 
-# Preview the data
-glimpse(ehr)
-
+# Copy the R data frame into the SQLite database as a table called "patients"
+dbWriteTable(con, "patients", ehr, overwrite = TRUE)
 ```
 
 ## Load Data
