@@ -34,6 +34,12 @@ dbWriteTable(con, "patients", ehr, overwrite = TRUE)
 
 ```{sql connection=con}
 
+DROP VIEW IF EXISTS cohort_tbl;
+```
+
+```{sql connection=con}
+
+CREATE TEMP TABLE cohort_tbl AS
 SELECT
     patient_id,
     age,
@@ -52,6 +58,19 @@ SELECT
 FROM patients
 WHERE bmi BETWEEN 12 AND 60
   AND systolic_bp BETWEEN 80 AND 250;
+```
+
+## Descriptive SQL Summary (per BMI category)
+
+```{sql connection=con}
+
+SELECT bmi_cat,
+       COUNT(*)               AS n,
+       ROUND(AVG(age),1)      AS mean_age,
+       ROUND(AVG(bmi),1)      AS mean_bmi
+FROM cohort_tbl
+GROUP BY bmi_cat
+ORDER BY n DESC;
 
 ```
 
