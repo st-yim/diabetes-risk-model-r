@@ -77,19 +77,10 @@ ORDER BY prevalence_pct DESC;
 
 ```
 
-## Exploratory Analysis
-
-```{r}
-# BMI distribution by diabetes status
-ehr %>%
-  ggplot(aes(x = bmi, fill = has_diabetes)) +
-  geom_density(alpha = 0.4)
-  labs(title = "BMI Distribution by Diabetes Status", x = "BMI", fill = "Diabetes")
-```
-
 ## Logistic Regression
 
 ```{r}
+
 # Build model to predict diabetes
 model <- glm(has_diabetes ~ age + sex + smoker + bmi + systolic_bp + cholesterol,
              data = ehr, family = binomial)
@@ -98,7 +89,9 @@ model <- glm(has_diabetes ~ age + sex + smoker + bmi + systolic_bp + cholesterol
 summary(model)
 
 # Tidy output
-tidy(model, exponentiate = TRUE, conf.int = TRUE)
+tidy(model, exponentiate = TRUE, conf.int = TRUE) %>%  
+  mutate(term = str_replace(term, "sexMale",   "Male vs Female"),
+         term = str_replace(term, "smokerYes", "Smoker vs Non-smoker"))
 
 
 ```
