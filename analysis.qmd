@@ -37,13 +37,12 @@ ehr <- ehr %>%
   )
 
 # Check missing values
-ehr %>% summarise_all(~sum(is.na(.)))
+ehr %>% summarise(across(everything(), ~sum(is.na(.))))
 ```
 
 ## Exploratory Analysis
 
 ```{r}
-
 # BMI distribution by diabetes status
 ehr %>%
   ggplot(aes(x = bmi, fill = has_diabetes)) +
@@ -54,7 +53,6 @@ ehr %>%
 ## Logistic Regression
 
 ```{r}
-
 # Build model to predict diabetes
 model <- glm(has_diabetes ~ age + sex + smoker + bmi + systolic_bp + cholesterol,
              data = ehr, family = binomial)
@@ -64,6 +62,7 @@ summary(model)
 
 # Tidy output
 tidy(model, exponentiate = TRUE, conf.int = TRUE)
+
 
 ```
 
