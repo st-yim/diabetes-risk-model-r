@@ -1,2 +1,4 @@
-analysis.html/** linguist-generated=true
+# Ignore Quarto/R Markdown output for language stats
+
+analysis.html linguist-generated=true
 analysis_files/** linguist-generated=true
