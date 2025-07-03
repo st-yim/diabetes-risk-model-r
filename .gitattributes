@@ -1,4 +1,5 @@
 # Ignore Quarto/R Markdown output for language stats
 
-analysis.html linguist-generated=true
-analysis_files/** linguist-generated=true
+*.html        linguist-generated=true   # every rendered page
+*_files/**    linguist-generated=true   # asset folders (css, js, images)
+
