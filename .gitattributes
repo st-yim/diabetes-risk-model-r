@@ -1,2 +1,2 @@
-*.html linguist-generated=true
+analysis.html/** linguist-generated=true
 analysis_files/** linguist-generated=true
