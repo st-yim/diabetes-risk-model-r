@@ -1,6 +1,8 @@
 # Predicting Diabetes Risk Using Simulated EHR Data
 
-This project uses a synthetic electronic health records (EHR) dataset to identify predictors of diabetes through logistic regression modeling in R. The project demonstrates data cleaning, exploratory data analysis, and statistical modeling in a reproducible workflow using RMarkdown.
+This project uses an electronic health records (EHR) dataset to identify predictors of diabetes through logistic regression modeling in R. The project demonstrates data cleaning, exploratory data analysis, and statistical modeling in a reproducible workflow using RMarkdown.
+
+> **Note**: This project uses *synthetic EHR data* generated entirely for demonstration purposes; it contains no real patient records.
 
 ---
 
